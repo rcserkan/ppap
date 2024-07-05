@@ -14,7 +14,6 @@ class HelpdeskSolutionQuestion(models.Model):
     step = fields.Selection(
         [
             ('step1', 'Step 1'),
-            ('step2', 'Step 2'),
-            ('step3', 'Step 3')
-        ]
+            ('step2', 'Step 2')
+        ], required=True
     )

@@ -399,36 +399,32 @@
                             <field name="user_id" class="field_user_id" domain="['&amp;', ('id', 'in', domain_user_ids), ('share', '=', False)]" widget="many2one_avatar_user"/>
                             <field name="domain_user_ids" invisible="1"/>
                             <field name="priority" widget="priority"/>
-                            <field name="ticket_type_id" options="{'no_open': True}"/>
-                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                         </group>
                         <group>
-                            <field name="partner_id" class="field_partner_id" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" widget="res_partner_many2one" context="{'default_phone': partner_phone}"/>
+                            <field name="partner_id" class="field_partner_id" invisible="1" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" widget="res_partner_many2one" context="{'default_phone': partner_phone}"/>
                             <field name="is_partner_phone_update" invisible="1"/>
-                            <label for="partner_phone" string="Phone"/>
-                            <div class="o_row o_row_readonly">
+                            <field name="application_type_step1_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="request_type_step1_id"  invisible="not application_type_step1_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="application_type_step2_id" invisible="not application_type_step1_id or not request_type_step1_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="request_type_step2_id" invisible="not application_type_step2_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="first_name" invisible="not application_type_step2_id or not request_type_step2_id"/>
+                            <field name="last_name" invisible="not application_type_step2_id or not request_type_step2_id"/>
+                            <field name="tc" invisible="not application_type_step2_id or not request_type_step2_id"/>
+                            <field name="gender" invisible="not application_type_step2_id or not request_type_step2_id"/>
+                            <label for="partner_phone" string="Phone" invisible="not application_type_step2_id or not request_type_step2_id"/>
+                            <div class="o_row o_row_readonly" invisible="not application_type_step2_id or not request_type_step2_id">
                                 <field name="partner_phone" widget="phone" string="Phone"/>
                                 <span class="fa fa-exclamation-triangle text-warning oe_edit_only"
                                 title="By saving this change, the customer phone number will also be updated." invisible="not is_partner_phone_update"/>
                             </div>
-                            <field name="email_cc" groups="base.group_no_one"/>
+                            <field name="email_cc" groups="base.group_no_one" invisible="not application_type_step2_id or not request_type_step2_id"/>
+                            <field name="address" invisible="not application_type_step2_id or not request_type_step2_id"/>
+                            <field name="description" invisible="not application_type_step2_id or not request_type_step2_id"/>
                         </group>
                     </group>
                     <div class="d-flex">
                         <field name="properties" nolabel="1" columns="2" hideKanbanOption="1"/>
                     </div>
-                    <notebook>
-                        <field name="display_extra_info" invisible="1"/>
-                        <page string="Description" name="description">
-                            <field name="description"/>
-                        </page>
-                        <page string="Extra Info" name="extra_info"
-                              invisible="not display_extra_info">
-                            <group>
-                                <field name="company_id" groups="base.group_multi_company" context="{'create': False}"/>
-                            </group>
-                        </page>
-                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids"/>

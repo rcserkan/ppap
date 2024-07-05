@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="helpdesk_application_type_view_tree" model="ir.ui.view">
+        <field name="name">helpdesk.application.type.tree</field>
+        <field name="model">helpdesk.application.type</field>
+        <field name="arch" type="xml">
+            <tree string="Helpdesk Application Type" editable="top">
+                <field name="name"/>
+                <field name="solution_question_id" readonly="1"/>
+                <field name="request_type_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="helpdesk_application_type_action" model="ir.actions.act_window">
+        <field name="name">Application Types</field>
+        <field name="res_model">helpdesk.application.type</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            No tags found. Let's create one!
+          </p><p>
+            Tags are perfect for organizing your types.
+          </p>
+        </field>
+    </record>
+</odoo>

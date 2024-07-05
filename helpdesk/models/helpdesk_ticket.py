@@ -92,8 +92,8 @@ class HelpdeskTicket(models.Model):
     partner_open_ticket_count = fields.Integer('Number of other open tickets from the same partner', compute='_compute_partner_ticket_count')
     # Used to submit tickets from a contact form
     partner_name = fields.Char(string='Customer Name', compute='_compute_partner_name', store=True, readonly=False)
-    partner_email = fields.Char(string='Customer Email', compute='_compute_partner_email', inverse="_inverse_partner_email", store=True, readonly=False)
-    partner_phone = fields.Char(string='Customer Phone', compute='_compute_partner_phone', inverse="_inverse_partner_phone", store=True, readonly=False)
+    partner_email = fields.Char(string='Email', compute='_compute_partner_email', inverse="_inverse_partner_email", store=True, readonly=False)
+    partner_phone = fields.Char(string='Telefon', compute='_compute_partner_phone', inverse="_inverse_partner_phone", store=True, readonly=False)
     commercial_partner_id = fields.Many2one(related="partner_id.commercial_partner_id")
     closed_by_partner = fields.Boolean('Closed by Partner', readonly=True)
     priority = fields.Selection(TICKET_PRIORITY, string='Priority', default='0', tracking=True)
@@ -137,6 +137,30 @@ class HelpdeskTicket(models.Model):
     answered_customer_message_count = fields.Integer('# Exchanges')
     total_response_hours = fields.Float("Total Exchange Time in Hours")
     display_extra_info = fields.Boolean(compute="_compute_display_extra_info")
+    application_type_step1_id = fields.Many2one(
+        'helpdesk.application.type',
+        string='Başvuru Türünüzü Seçiniz?',
+        domain=[('solution_question_id.step','=','step1')]
+    )
+    request_type_step1_id = fields.Many2one(
+        'helpdesk.request.type',
+        string='Seçiniz.',
+    )
+    application_type_step2_id = fields.Many2one(
+        'helpdesk.application.type',
+        string='Başvuru İçin İlgili Birimi Seçiniz?',
+        domain=[('solution_question_id.step','=','step2')]
+    )
+    request_type_step2_id = fields.Many2one(
+        'helpdesk.request.type',
+        string='Seçiniz.',
+    )
+    first_name = fields.Char(string='İsim')
+    last_name = fields.Char(string='Soyisim')
+    tc = fields.Char(string='TC')
+    gender = fields.Selection([('man', 'Erkek'), ('women', 'Kadın')], required=True, string='Cinsiyet')
+    address = fields.Char(string='Adres')
+
 
     @api.depends('stage_id', 'kanban_state')
     def _compute_kanban_state_label(self):

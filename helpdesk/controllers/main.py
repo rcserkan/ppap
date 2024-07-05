@@ -17,27 +17,48 @@ from odoo.addons.portal.controllers.mail import _message_post_helper
 import base64
 _logger = logging.getLogger(__name__)
 
-class CrmController(http.Controller):
+class HelpdeskController(http.Controller):
+
+    @http.route('/helpdesk/solution_question', type='json', auth='public', methods=['GET'], csrf=False)
+    def solution_question(self):
+
+        question_ids = request.env['helpdesk.solution.question'].sudo().search([])
+
+        question_dict = [{
+            'id': q.id,
+            'name': q.name,
+            'step': q.step,
+            'application_type_ds': [{
+                'id': type_id.id,
+                'name': type_id.name,
+                'request_type_ds': [{
+                    'id': request_id.id,
+                    'name': request_id.name,
+                } for request_id in type_id.request_type_ids], 
+            } for type_id in q.type_ids], 
+        } for q in question_ids]
+
+
+        return {'status': 'success', 'data': question_dict}
 
     @http.route('/helpdesk/create', type='json', auth='public', methods=['POST'], csrf=False)
     def create_helpdesk(self, **kwargs):
-        headers = request.httprequest.headers
-        auth_header = headers.get('Authorization')
+        helpdesk_id = request.env['helpdesk.ticket'].sudo().create({
+            'name': kwargs.get('name'),
+            'team_id': request.env['helpdesk.team'].sudo().search([], limit=1).id,
+            'user_id': request.env['res.users'].sudo().search([], limit=1).id,
+            'application_type_step1_id': int(kwargs.get('application_type_step1_id')), #1
+            'request_type_step1_id': int(kwargs.get('request_type_step1_id')),#2
+            'application_type_step2_id': int(kwargs.get('application_type_step2_id')),#4
+            'request_type_step2_id': int(kwargs.get('request_type_step2_id')),#12
+            'first_name': kwargs.get('first_name'),
+            'last_name': kwargs.get('last_name'),
+            'tc': kwargs.get('tc'),
+            'gender': kwargs.get('gender'),
+            'email_cc': kwargs.get('email'),
+            'partner_phone': kwargs.get('phone'),
+            'description': kwargs.get('description'),
+            'address': kwargs.get('address'),
+        })
 
-        if auth_header and auth_header.startswith('Basic '):
-            auth_token = auth_header.split(' ')[1]
-            decoded_auth = base64.b64decode(auth_token).decode('utf-8')
-            username, password = decoded_auth.split(':')
-
-            login_status = request.session.authenticate("ppap", username, password)
-            if not login_status:
-                return {'status': 'error', 'message': 'Username or password incorrect.'}
-            
-            helpdesk_id = request.env['crm.lead'].sudo().create({
-                'name': kwargs.get('full_name'),
-               
-            })
-
-            return {'status': 'success', 'message': 'Helpdesk record successfully created.', 'crm_id': helpdesk_id.id}
-        else:
-            return {'status': 'error', 'message': 'Authorization header is missing.'}
+        return {'status': 'success', 'message': 'Helpdesk record successfully created.', 'crm_id': helpdesk_id.id}
