@@ -405,8 +405,10 @@
                             <field name="is_partner_phone_update" invisible="1"/>
                             <field name="application_type_step1_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="request_type_step1_id"  invisible="not application_type_step1_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="step1_request_type_ids" invisible="1"/>
                             <field name="application_type_step2_id" invisible="not application_type_step1_id or not request_type_step1_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="request_type_step2_id" invisible="not application_type_step2_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="step2_request_type_ids" invisible="1"/>
                             <field name="first_name" invisible="not application_type_step2_id or not request_type_step2_id"/>
                             <field name="last_name" invisible="not application_type_step2_id or not request_type_step2_id"/>
                             <field name="tc" invisible="not application_type_step2_id or not request_type_step2_id"/>

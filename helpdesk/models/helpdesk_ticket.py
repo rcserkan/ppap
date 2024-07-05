@@ -140,20 +140,33 @@ class HelpdeskTicket(models.Model):
     application_type_step1_id = fields.Many2one(
         'helpdesk.application.type',
         string='Başvuru Türünüzü Seçiniz?',
-        domain=[('solution_question_id.step','=','step1')]
+        domain=[('solution_question_id.step', '=', 'step1')]
+    )
+    step1_request_type_ids = fields.Many2many(
+        'helpdesk.request.type',
+        string='Types',
+        related="application_type_step1_id.request_type_ids"
     )
     request_type_step1_id = fields.Many2one(
         'helpdesk.request.type',
         string='Seçiniz.',
+        domain="[('id', 'in', step1_request_type_ids)]"
     )
+    
     application_type_step2_id = fields.Many2one(
         'helpdesk.application.type',
-        string='Başvuru İçin İlgili Birimi Seçiniz?',
-        domain=[('solution_question_id.step','=','step2')]
+        string='Başvuru Türünüzü Seçiniz?',
+        domain=[('solution_question_id.step', '=', 'step2')]
+    )
+    step2_request_type_ids = fields.Many2many(
+        'helpdesk.request.type',
+        string='Types',
+        related="application_type_step2_id.request_type_ids"
     )
     request_type_step2_id = fields.Many2one(
         'helpdesk.request.type',
         string='Seçiniz.',
+        domain="[('id', 'in', step2_request_type_ids)]"
     )
     first_name = fields.Char(string='İsim')
     last_name = fields.Char(string='Soyisim')
