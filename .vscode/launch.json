@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Odoo",
+      "type": "python",
+      "request": "launch",
+      "stopOnEntry": false,
+      "console": "integratedTerminal",
+      "program": "/Users/serkansengul/Odoo/Odoo17/odoo/odoo-bin",
+      "args": [
+        "--config=/Users/serkansengul/Odoo/Odoo17/config/odoo-server.conf",
+        "--update=helpdesk"
+      ]
+    }
+  ]
+}

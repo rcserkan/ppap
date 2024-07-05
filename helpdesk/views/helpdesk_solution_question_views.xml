@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="helpdesk_solution_question_view_tree" model="ir.ui.view">
+        <field name="name">helpdesk.solution.question.tree</field>
+        <field name="model">helpdesk.solution.question</field>
+        <field name="arch" type="xml">
+            <tree string="Helpdesk Solution Question" multi_edit="1" sample="1">
+                <field name="name" class="field_name" string="Name"/>
+                <field name="step" string="Step"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="helpdesk_solution_question_view_form" model="ir.ui.view">
+        <field name="name">helpdesk.solution.question.form</field>
+        <field name="model">helpdesk.solution.question</field>
+        <field name="arch" type="xml">
+            <form >
+                <sheet>
+                    <div class="oe_title" id='title'>
+                        <label for="name" string="Name"/>
+                        <h1 id="name"><field name="name" options="{'line_breaks': False}" widget="text" placeholder="Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="step"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Application Types" name="application_type">
+                            <field name="type_ids" mode="tree">
+                                <tree string="Types" editable="bottom">
+                                    <field name="solution_question_id" column_invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="request_type_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="helpdesk_solution_question_action" model="ir.actions.act_window">
+        <field name="name">Solution Questions</field>
+        <field name="res_model">helpdesk.solution.question</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            No tags found. Let's create one!
+          </p><p>
+            Tags are perfect for organizing your questions.
+          </p>
+        </field>
+    </record>
+</odoo>
