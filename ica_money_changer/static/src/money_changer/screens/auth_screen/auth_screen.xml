@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ica_money_changer.auth_screen">
+        <div class="container mt-5 mx-auto">
+                <div class="container text-center">
+                    <img src="/mail/static/description/icon.png"/>
+                    <h3 class="text-primary m-3">Login!</h3>
+                </div>
+            <div class="container w-50">
+                <input type="text" t-ref="username" placeholder="username" class="form-control mb-2 text-primary"/>
+                <input type="text" t-ref="password" placeholder="password" class="form-control mb-2"/>
+                <div class="mb-2 mt-2 text-muted">
+                    <input type="checkbox" id="switch-remember"
+                           t-on-click="toggleRemember"/>
+                    <label for="switch-remember" class="mx-2 text-primary">Don't ask again on this device</label>
+                </div>
+                <button class="btn btn-primary mx-auto w-100" t-on-click="login">Login</button>
+                </div>
+            </div>
+    </t>
+</templates>

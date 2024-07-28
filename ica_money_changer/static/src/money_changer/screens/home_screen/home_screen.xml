@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ica_money_changer.home_screen">
+        <NavbarComponent t-props="props"/>
+        
+        <section class="content">
+          <div class="container-fluid">
+              <div class="block-header">
+                  <div class="row">
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                          <ul class="breadcrumb breadcrumb-style ">
+                              <li class="breadcrumb-item">
+                                  <h4 class="page-title">Contact List</h4>
+                              </li>
+                              <li class="breadcrumb-item bcrumb-1">
+                                  <a href="../../index.html">
+                                      <i class="fas fa-home"></i> Home</a>
+                              </li>
+                              <li class="breadcrumb-item bcrumb-2">
+                                  <a href="#" onClick="return false;">Apps</a>
+                              </li>
+                              <li class="breadcrumb-item active">Contact List</li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="card">
+                          <div class="body">
+                              <div class="table-responsive">
+                                  <table class="table table-hover js-basic-example contact_list">
+                                      <thead>
+                                          <tr>
+                                              <th style="width: 100px;">#</th>
+                                              <th>Product Name</th>
+                                              <th>Price</th>
+                                              <th>Cost</th>
+                                              <th>Status</th>
+                                              <th>Action</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                        <t t-foreach="state.currencies" t-as="currency" t-key="currency.id">
+                                          <tr role="row" class="odd">
+                                              <td class="table-img sorting_1">
+                                                  <img t-att-src="'/web/image/product.product/' + currency.id + '/image_512'"/>
+                                              </td>
+                                              <td><t t-out="currency.name"/></td>
+                                              <td><t t-out="currency.list_price"/></td>
+                                              <td><t t-out="currency.standard_price"/></td>
+                                              <td>
+                                                  <span class="label l-bg-purple shadow-style">In Stock</span>
+                                              </td>
+                                              <td>
+                                                  <button class="btn tblActnBtn">
+                                                      <i class="material-icons">mode_edit</i>
+                                                  </button>
+                                                  <button class="btn tblActnBtn">
+                                                      <i class="material-icons">delete</i>
+                                                  </button>
+                                              </td>
+                                          </tr>
+                                        </t>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+    </t>
+</templates>

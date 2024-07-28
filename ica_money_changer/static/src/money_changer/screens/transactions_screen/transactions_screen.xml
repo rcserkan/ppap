@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ica_money_changer.transactions_screen">
+        <NavbarComponent t-props="props"/>
+        <div class="container mt-5">
+            <table class="table table-bordered shadow p-3 mb-5 bg-body rounded">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">To Currency</th>
+                <th scope="col">State</th>
+            </tr>
+          </thead>
+                <tbody>
+                  <t t-foreach="state.transactions" t-as="transaction" t-key="transaction.id">
+                      <tr>
+                          <th scope="row" t-out="transaction.date"/>
+                          <td t-esc="transaction.partner_id[1]"/>
+                          <td t-out="transaction.currency_id[1]"/>
+                          <td t-out="transaction.state"/>
+                      </tr>
+                  </t>
+          </tbody>
+        </table>
+        </div>
+    </t>
+</templates>

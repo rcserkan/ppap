@@ -10,7 +10,7 @@
       "program": "/Users/serkansengul/Odoo/Odoo17/odoo/odoo-bin",
       "args": [
         "--config=/Users/serkansengul/Odoo/Odoo17/config/odoo-server.conf",
-        "--update=helpdesk"
+        "--update=ica_money_changer"
       ]
     }
   ]

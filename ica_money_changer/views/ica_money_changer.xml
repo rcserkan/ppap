@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="ica_money_changer_view_tree" model="ir.ui.view">
+        <field name="name">ica_money_changer_view_tree</field>
+        <field name="model">ica.money.changer</field>
+        <field name="arch" type="xml">
+            <tree string="ica_money_changer_tree">
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="currency_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-muted="state=='draft'"
+                       decoration-danger="state == 'cancel'"
+                       decoration-warning="state == 'processing'"
+                />
+            </tree>
+        </field>
+    </record>
+    <record id="ica_money_changer_view_form" model="ir.ui.view">
+        <field name="name">ica_money_changer_view_form</field>
+        <field name="model">ica.money.changer</field>
+        <field name="arch" type="xml">
+            <form string="ica_money_changer_form">
+                <header>
+                    <button name="action_draft" type="object" string="Draft"/>
+                    <button name="action_confirm" type="object" class="btn btn-primary" string="Confirm"
+                            invisible="state != 'draft'"/>
+                    <button name="action_processing" type="object" class="btn btn-warning" string="Processing"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_done" type="object" class="btn btn-success" string="Done"
+                            invisible="state != 'processing'"/>
+                    <button name="action_cancel" type="object" class="btn btn-danger" string="Cancel"
+                            invisible="state != 'confirmed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state == 'processing'"/>
+                            <field name="date" readonly="state == 'processing'"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" readonly="state == 'processing'"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" readonly="state == 'processing'">
+                        <tree editable="bottom">
+                            <field name="from_currency_id"/>
+                            <field name="from_amount"/>
+                            <field name="to_currency_id"/>
+                            <field name="to_amount" sum="Total"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="ica_money_changer_action" model="ir.actions.act_window">
+        <field name="name">Money Changer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ica.money.changer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

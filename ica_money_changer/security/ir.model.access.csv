@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ica_money_changer,ica.money.changer,model_ica_money_changer,,1,1,1,1
+access_ica_money_changer_line,ica.money.changer.line,model_ica_money_changer_line,,1,1,1,1
