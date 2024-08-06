@@ -66,25 +66,27 @@ class HelpdeskController(http.Controller):
 
         # Image ekle
         if image_data:
+            image_data = base64.b64decode(image_data)
             request.env['ir.attachment'].sudo().create({
-                'name': 'Helpdesk Image',
+                'name': 'ticket_image.jpg',
                 'type': 'binary',
-                'datas': base64.b64encode(image_data.encode()),
+                'datas': base64.b64encode(image_data),
                 'res_model': 'helpdesk.ticket',
                 'res_id': helpdesk_id.id,
-                'mimetype': 'image/jpeg'  # uygun mime type kullanın
+                'mimetype': 'image/jpeg'
             })
         
-        # Video ekle
-        if video_data:
-            request.env['ir.attachment'].sudo().create({
-                'name': 'Helpdesk Video',
-                'type': 'binary',
-                'datas': base64.b64encode(video_data.encode()),
-                'res_model': 'helpdesk.ticket',
-                'res_id': helpdesk_id.id,
-                'mimetype': 'video/mp4'  # uygun mime type kullanın
-            })
+        # # Video ekle
+        # if video_data:
+        #     video_data = base64.b64decode(video_data)
+        #     request.env['ir.attachment'].sudo().create({
+        #         'name': 'Helpdesk Video',
+        #         'type': 'binary',
+        #         'datas': base64.b64encode(video_data),
+        #         'res_model': 'helpdesk.ticket',
+        #         'res_id': helpdesk_id.id,
+        #         'mimetype': 'video/mp4'  # uygun mime type kullanın
+        #     })
 
 
         return {'status': 'success', 'message': 'Helpdesk record successfully created.', 'crm_id': helpdesk_id.id}
