@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_order_tree_view" model="ir.ui.view">
+        <field name="name">email.order.tree</field>
+        <field name="model">email.order</field>
+        <field name="arch" type="xml">
+            <tree string="Emails" create="1">
+                <field name="name"/>
+                <field name="file_name"/>
+                <field name="order_date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="email_order_views_form" model="ir.ui.view">
+        <field name="name">email.order.form</field>
+        <field name="model">email.order</field>
+        <field name="arch" type="xml">
+            <form string="Daily Closing Report">
+                <!-- <header>
+                    <button type="object" name="get_register_payments" string="Get Payments" class="btn-primary" confirm="If there are invoices in the row, the existing rows will be deleted and new ones will be fetched. Are you sure you want to continue?"/>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header> -->
+                <sheet >
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="file_name" readonly="1"/>
+                            <field name="email" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="order_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="json" string="JSON">
+                            <field name="order_json" nolabel="1" string="JSON Preview" widget="json_preview"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="email_order_action">
+        <field name="name">Emails</field>
+        <field name="res_model">email.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create the form
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_mail_attachment_processor" name="Attachment Processor" web_icon="mail_attachment_processor,static/description/icon.png"/>
+    <menuitem name="Email Attachment" id="email_attachment_menu" parent="menu_mail_attachment_processor" action="email_order_action" sequence="1"/>
+</odoo>
