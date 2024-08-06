@@ -43,6 +43,9 @@ class HelpdeskController(http.Controller):
 
     @http.route('/helpdesk/create', type='json', auth='public', methods=['POST'], csrf=False)
     def create_helpdesk(self, **kwargs):
+        image_data = kwargs.get('image')
+        video_data = kwargs.get('video')
+
         helpdesk_id = request.env['helpdesk.ticket'].sudo().create({
             'name': kwargs.get('name'),
             'team_id': request.env['helpdesk.team'].sudo().search([], limit=1).id,
@@ -60,5 +63,28 @@ class HelpdeskController(http.Controller):
             'description': kwargs.get('description'),
             'address': kwargs.get('address'),
         })
+
+        # Image ekle
+        if image_data:
+            request.env['ir.attachment'].sudo().create({
+                'name': 'Helpdesk Image',
+                'type': 'binary',
+                'datas': base64.b64encode(image_data.encode()),
+                'res_model': 'helpdesk.ticket',
+                'res_id': helpdesk_id.id,
+                'mimetype': 'image/jpeg'  # uygun mime type kullanın
+            })
+        
+        # Video ekle
+        if video_data:
+            request.env['ir.attachment'].sudo().create({
+                'name': 'Helpdesk Video',
+                'type': 'binary',
+                'datas': base64.b64encode(video_data.encode()),
+                'res_model': 'helpdesk.ticket',
+                'res_id': helpdesk_id.id,
+                'mimetype': 'video/mp4'  # uygun mime type kullanın
+            })
+
 
         return {'status': 'success', 'message': 'Helpdesk record successfully created.', 'crm_id': helpdesk_id.id}
