@@ -50,10 +50,10 @@ class HelpdeskController(http.Controller):
             'name': kwargs.get('name'),
             'team_id': request.env['helpdesk.team'].sudo().search([], limit=1).id,
             'user_id': request.env['res.users'].sudo().search([], limit=1).id,
-            'application_type_step1_id': int(kwargs.get('application_type_step1_id')), #1
-            'request_type_step1_id': int(kwargs.get('request_type_step1_id')),#2
-            'application_type_step2_id': int(kwargs.get('application_type_step2_id')),#4
-            'request_type_step2_id': int(kwargs.get('request_type_step2_id')),#12
+            'application_type_step1_id': kwargs.get('application_type_step1_id'), #1
+            'request_type_step1_id': kwargs.get('request_type_step1_id'),#2
+            'application_type_step2_id': kwargs.get('application_type_step2_id'),#4
+            'request_type_step2_id': kwargs.get('request_type_step2_id'),#12
             'first_name': kwargs.get('first_name'),
             'last_name': kwargs.get('last_name'),
             'tc': kwargs.get('tc'),
