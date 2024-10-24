@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <odoo>
+    <record id="view_users_form_inherit" model="ir.ui.view">
+        <field name="name">view.users.form.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <notebook colspan="4" position="inside">
+                <page string="Enterprise">
+                    <group string="Settings" col="2">
+                        <field name="scan_limit"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+ </odoo>

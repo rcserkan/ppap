@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="face_plus_order_tree_view" model="ir.ui.view">
+        <field name="name">face.plus.order.tree</field>
+        <field name="model">face.plus.order</field>
+        <field name="arch" type="xml">
+            <tree string="Face Plus Order" create="1">
+                <field name="name"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="face_plus_order_views_form" model="ir.ui.view">
+        <field name="name">face.plus.order.form</field>
+        <field name="model">face.plus.order</field>
+        <field name="arch" type="xml">
+            <form string="Face Plus Order">
+                <header>
+                    <button type="object" name="run_face_plus_report" string="Face Plus" class="btn-primary" />
+                    <button type="object" name="run_beatiful_score_report" string="Beatiful Score" class="btn-primary"/>
+                    <button type="object" name="run_chat_gpt_report" string="Run Chat GPT" class="btn-primary"/>
+                    <!-- <field name="state" widget="statusbar" options="{'clickable': '1'}"/> -->
+                </header>
+                <sheet name="product_form">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <field name="id" invisible="True"/>
+                    <notebook>
+                        <page name="face_plus_result" string="Image Result">
+                            <field name="summary" widget="html" readonly="1"/>
+                        </page>
+                        <page name="gpt_result" string="GPT Result">
+                            <field name="chat_gpt_result" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="face_plus_order_action">
+        <field name="name">Face Plus Order</field>
+        <field name="res_model">face.plus.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create the form
+            </p>
+        </field>
+    </record>
+    <record id="face_plus_order_sequence" model="ir.sequence">
+        <field name="name">Face Plus Order Sequence</field>
+        <field name="code">face.plus.order</field>
+        <field name="prefix">FPO</field>
+        <field name="padding">6</field>
+        <field name="number_increment">1</field>
+    </record>
+    <menuitem id="menu_face_plus" name="Face Plus" web_icon="face_plus_app,static/description/icon.png"/>
+    <menuitem name="Orders" id="face_plus_order_menu" parent="menu_face_plus" action="face_plus_order_action" sequence="1"/>
+</odoo>
