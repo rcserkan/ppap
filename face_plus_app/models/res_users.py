@@ -5,6 +5,8 @@ from datetime import timedelta, datetime
 class ResUsers(models.Model):
     _inherit = 'res.users'
 
+    phone = fields.Char(string='Phone')
+    gender = fields.Selection([('male', 'Male'), ('women', 'Women')], string='Gender', default='male')
     scan_limit = fields.Integer(string='Scan Limit')
 
     def get_token_data(self):

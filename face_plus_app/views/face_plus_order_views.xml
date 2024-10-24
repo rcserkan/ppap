@@ -17,7 +17,6 @@
             <form string="Face Plus Order">
                 <header>
                     <button type="object" name="run_face_plus_report" string="Face Plus" class="btn-primary" />
-                    <button type="object" name="run_beatiful_score_report" string="Beatiful Score" class="btn-primary"/>
                     <button type="object" name="run_chat_gpt_report" string="Run Chat GPT" class="btn-primary"/>
                     <!-- <field name="state" widget="statusbar" options="{'clickable': '1'}"/> -->
                 </header>

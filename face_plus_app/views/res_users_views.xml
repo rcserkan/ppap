@@ -8,6 +8,8 @@
             <notebook colspan="4" position="inside">
                 <page string="Enterprise">
                     <group string="Settings" col="2">
+                        <field name="phone"/>
+                        <field name="gender"/>
                         <field name="scan_limit"/>
                     </group>
                 </page>

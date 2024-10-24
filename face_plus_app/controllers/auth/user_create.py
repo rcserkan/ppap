@@ -9,13 +9,18 @@ _logger = logging.getLogger(__name__)
 @external_api.rest_response()
 @external_api.authenticated()
 def user_create(self, json_body):
+
     name = json_body.get('name', None)
     email = json_body.get('email', None)
+    phone = json_body.get('phone', None)
+    gender = json_body.get('gender', None)
     password = json_body.get('password', None)
     
     user_id = http.request.env['res.users'].create({
         'name': name,
         'login': email,
+        'phone': phone,
+        'gender': gender,
         # 'password': password,
     })
 

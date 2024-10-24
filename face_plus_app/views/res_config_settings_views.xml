@@ -37,29 +37,29 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <h2>Shopify Settings</h2>
+                    <h2>OpenAI Settings</h2>
                     <div class="row mt16 o_settings_container" id="product_general_settings">
-                        <div class="col-12 col-lg-6 o_setting_box" id="manage_other_setting">
+                        <div class="col-12 col-lg-6 o_setting_box" id="weight_uom_setting">
                             <div class="o_setting_right_pane">
-                                <label for="shopify_url"/>
+                                <label for="openai_key" string="OpenAI Key"/>
                                 <div class="content-group">
                                     <div class="mt16">
-                                        <field name="shopify_url" class="o_light_label"/>
+                                        <field name="openai_key" class="o_light_label"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 o_setting_box" id="weight_uom_setting">
                             <div class="o_setting_right_pane">
-                                <label for="shopify_token"/>
+                                <label for="openai_props" string="OpenAI Prop"/>
                                 <div class="content-group">
                                     <div class="mt16">
-                                        <field name="shopify_token" class="o_light_label" password="True"/>
+                                        <field name="openai_props" class="o_light_label"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </xpath>
             </field>
         </record>

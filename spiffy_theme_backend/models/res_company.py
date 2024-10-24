@@ -29,6 +29,7 @@ class Company(models.Model):
     login_page_text_color = fields.Char('Login Text Color', default="#777777", readonly=False)
     show_bg_image = fields.Boolean(string='Add Login Background Image', readonly=False)
     spiffy_favicon = fields.Binary(string="Backend Tab Favicon", readonly=False)
+    
     def get_login_page_data(self):
         admin_users = request.env['res.users'].sudo().search([
             ('groups_id','in',request.env.ref('base.user_admin').id),
