@@ -6,7 +6,7 @@ class ResUsers(models.Model):
     _inherit = 'res.users'
 
     phone = fields.Char(string='Phone')
-    scan_limit = fields.Integer(string='Scan Limit')
+    scan_limit = fields.Integer(string='Scan Limit', default=1)
 
     def get_token_data(self):
             self.ensure_one()
