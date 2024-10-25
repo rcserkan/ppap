@@ -6,7 +6,6 @@ class ResUsers(models.Model):
     _inherit = 'res.users'
 
     phone = fields.Char(string='Phone')
-    gender = fields.Selection([('male', 'Male'), ('women', 'Women')], string='Gender', default='male')
     scan_limit = fields.Integer(string='Scan Limit')
 
     def get_token_data(self):
@@ -16,6 +15,7 @@ class ResUsers(models.Model):
                 'id': self.id,
                 'name': self.name,
                 'username': self.email,
+                'scan_limit': self.scan_limit,
                 'iss': 'face_plus',
                 'iat': datetime.utcnow(),
                 'exp': datetime.utcnow() + timedelta(hours=1),
@@ -26,4 +26,5 @@ class ResUsers(models.Model):
             'id': self.id,
             'name': self.name,
             'email': self.email,
+            'scan_limit': self.scan_limit,
         } if self else False

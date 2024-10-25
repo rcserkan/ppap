@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_face_plus_order,access_face_plus_order,model_face_plus_order,base.group_user,1,1,1,1
+access_face_plus_slider,access_face_plus_slider,model_face_plus_slider,base.group_user,1,1,1,1

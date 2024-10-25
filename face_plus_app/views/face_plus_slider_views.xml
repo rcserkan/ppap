@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="face_plus_slider_tree_view" model="ir.ui.view">
+        <field name="name">face.plus.slider.tree</field>
+        <field name="model">face.plus.slider</field>
+        <field name="arch" type="xml">
+            <tree string="Face Plus Slider" create="1">
+                <field name="name"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="face_plus_slider_views_form" model="ir.ui.view">
+        <field name="name">face.plus.slider.form</field>
+        <field name="model">face.plus.slider</field>
+        <field name="arch" type="xml">
+            <form string="Face Plus Slider">
+                <sheet name="product_form">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sub_title"/>
+                        </group>
+                        <group>
+                            <field name="image" widget="image"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="face_plus_slider_action">
+        <field name="name">Face Plus Slider</field>
+        <field name="res_model">face.plus.slider</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create the form
+            </p>
+        </field>
+    </record>
+    <record id="face_plus_slider_sequence" model="ir.sequence">
+        <field name="name">Face Plus Slider Sequence</field>
+        <field name="code">face.plus.slider</field>
+        <field name="prefix">FPO</field>
+        <field name="padding">6</field>
+        <field name="number_increment">1</field>
+    </record>
+    <menuitem name="Slider" id="face_plus_slider_menu" parent="menu_face_plus" action="face_plus_slider_action" sequence="2"/>
+</odoo>

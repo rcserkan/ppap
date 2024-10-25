@@ -19,4 +19,4 @@ class Order(http.Controller):
         return orders_dict
     
     def get_image(self, order):
-        return http.request.env['ir.attachment'].sudo().search([('res_model', '=', 'face.plus.order'), ('res_id', '=', order.id)], limit=1).local_url
+        return http.request.env['ir.attachment'].sudo().search([('res_model', '=', 'face.plus.order'), ('res_id', '=', order.id)], limit=1).datas

@@ -15,7 +15,6 @@ class PlatformAuth(http.Controller):
             'id': user.id,
             'name': user.name,
             'email': user.login,
-            'gender': user.gender,
             'phone': user.phone,
             'user_type': 'customer',
             'image': user.image_1920,

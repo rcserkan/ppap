@@ -3,6 +3,7 @@ from odoo import http
 from odoo.http import JsonRPCDispatcher, Response
 from . import auth
 from . import order
+from . import slider
 import json
 from odoo.tools import date_utils
 
