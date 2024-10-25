@@ -73,7 +73,7 @@ def authenticated(func=None, *, roles=None):
                 rc_partner_id=user.partner_id.id,
             )
 
-            if user and user.share:
+            if user:
                 http.request.env.uid = user.id
 
             result = func(*args, **kwargs)
