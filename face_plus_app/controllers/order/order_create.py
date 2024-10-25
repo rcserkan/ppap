@@ -24,16 +24,17 @@ def order_create(self, **kw):
 
     order = http.request.env['face.plus.order'].sudo().create({})
     if order:
-        http.request.env['ir.attachment'].sudo().create({
-            'name': order.name,
-            'res_id': order.id,
-            'res_model': 'face.plus.order',
-            'datas': image_base64,
-            'type': 'binary',
-            'mimetype': 'application/jpg',
-        })
-        order.run_face_plus_report()
-        order.run_chat_gpt_report()
+        if image_base64 != None:
+            http.request.env['ir.attachment'].sudo().create({
+                'name': order.name,
+                'res_id': order.id,
+                'res_model': 'face.plus.order',
+                'datas': image_base64,
+                'type': 'binary',
+                'mimetype': 'application/jpg',
+            })
+            order.run_face_plus_report()
+            order.run_chat_gpt_report()
 
         
         # user.sudo().update({ 'scan_limit': user.scan_limit - 1})
