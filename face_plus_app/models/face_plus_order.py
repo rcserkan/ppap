@@ -65,13 +65,15 @@ class FacePlusOrder(models.Model):
         openai.api_key = api_key
         content = "%s %s" % (self.summary, ConfigModel.get_param('face_plus_app.openai_props')) 
 
-        chat_completion = openai.ChatCompletion.create(
+        # Yeni API yapısına uygun güncelleme
+        response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "user", "content": content}
             ]
         )
-        
+
+        # Yanıtı al ve güncelle
         self.update({
-            'chat_gpt_result': chat_completion.choices[0].message['content']
+            'chat_gpt_result': response['choices'][0]['message']['content']
         })
