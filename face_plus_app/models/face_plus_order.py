@@ -57,21 +57,29 @@ class FacePlusOrder(models.Model):
     def run_chat_gpt_report(self):
         ConfigModel = self.env['ir.config_parameter'].sudo()
 
-        os.environ["OPENAI_API_KEY"] = ConfigModel.get_param('face_plus_app.openai_key')
-        api_key = os.environ.get("OPENAI_API_KEY")
-        if api_key is None:
-            raise ValueError("API key not found. Please set the OPENAI_API_KEY environment variable.")
+        # API anahtarını al
+        openai_key = ConfigModel.get_param('face_plus_app.openai_key')
+        if not openai_key:
+            raise ValueError("API anahtarı bulunamadı. Lütfen 'face_plus_app.openai_key' ayarını kontrol edin.")
 
-        openai.api_key = api_key
-        content = "%s %s" % (self.summary, ConfigModel.get_param('face_plus_app.openai_props')) 
+        openai.api_key = openai_key
 
-        chat_completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "user", "content": content}
-            ]
-        )
-        
-        self.update({
-            'chat_gpt_result': chat_completion.choices[0].message['content']
-        })
+        props = ConfigModel.get_param('face_plus_app.openai_props') or ""
+        content = f"{self.summary} {props}"
+
+        try:
+            chat_completion = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": content}]
+            )
+
+            if chat_completion.choices and chat_completion.choices[0].message:
+                self.update({
+                    'chat_gpt_result': chat_completion.choices[0].message['content']
+                })
+            else:
+                raise ValueError("Geçerli bir yanıt alınamadı. Yanıt formatı beklenenden farklı.")
+        except openai.error.OpenAIError as e:
+            raise ValueError(f"OpenAI API hatası: {str(e)}")
+        except Exception as e:
+            raise ValueError(f"Beklenmedik bir hata oluştu: {str(e)}")
