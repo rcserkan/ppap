@@ -24,7 +24,9 @@ def order_create(self, **kw):
     image_base64 = json_body.get('image_base64', None)
     type = json_body.get('type', None)
 
-    order = http.request.env['face.plus.order'].sudo().create({})
+    order = http.request.env['face.plus.order'].sudo().create({
+        'type': type
+    })
     if order:
         if image_base64 != None:
             http.request.env['ir.attachment'].sudo().create({

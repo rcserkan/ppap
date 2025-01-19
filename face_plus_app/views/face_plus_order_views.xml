@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <tree string="Face Plus Order" create="1">
                 <field name="name"/>
+                <field name="type"/>
                 <field name="create_date"/>
             </tree>
         </field>
@@ -26,6 +27,14 @@
                             <field name="name" readonly="1"/>
                         </h1>
                     </div>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                        </group>
+                        <group>
+                            <field name="create_date"/>
+                        </group>
+                    </group>
                     <field name="id" invisible="True"/>
                     <notebook>
                         <page name="face_plus_result" string="Image Result">

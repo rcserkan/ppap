@@ -17,6 +17,18 @@ class FacePlusOrder(models.Model):
 
     name = fields.Char(string='Name')
     summary = fields.Html(string='Summary')
+    type = fields.Selection(
+        [
+            ('character', 'Karakter Analizi'),
+            ('skin', 'Cilt ve Güzellik Analizi'),
+            ('mood', 'Ruh Hali ve Bilinçaltı Analizi'),
+            ('dream', 'Rüya Analizi'),
+            ('style', 'Görünüm ve Stil Önerileri'),
+            ('wish', 'Dilek ve Sorun Çözme Modülü'),
+            ('nutrition', 'Beslenme ve Sağlıklı Yaşam Modülü'),
+            ('personal', 'Kişisel Gelişim ve Hedef Modülü'),
+        ]
+    )
     chat_gpt_result = fields.Text(string='Gpt Result')
 
     @api.model
@@ -32,17 +44,17 @@ class FacePlusOrder(models.Model):
         api_key = ConfigModel.get_param('face_plus_app.face_plus_key')
         api_secret = ConfigModel.get_param('face_plus_app.face_plus_secret')
         url = ConfigModel.get_param('face_plus_app.face_plus_url')
-
+        # api_key = "PHfsBXJr2VjNJcgZCKTqOroWg3a6n5GU"
+        # api_secret = "v-IUIvlHCqohu_tCLoRs84nMRKi0ON7T"
+        # url = "https://api-us.faceplusplus.com/facepp/v1/skinanalyze"
 
         attachment_id = self.env['ir.attachment'].search([('res_model', '=', 'face.plus.order'), ('res_id', '=', self.id)], limit=1)
         if attachment_id:
-            image_base64_data = attachment_id.datas.decode('utf-8').strip().replace("dataimage/jpegbase64","")
-            image_base64 = f"data:image/jpeg;base64,{image_base64_data}"
-
+            
             data = {
                 'api_key': api_key,
                 'api_secret': api_secret,
-                'image_base64': image_base64
+                'image_base64': attachment_id.datas.decode('utf-8')
             }
             response = requests.post(url, data=data)
             
@@ -64,7 +76,24 @@ class FacePlusOrder(models.Model):
 
         openai.api_key = openai_key
 
-        props = ConfigModel.get_param('face_plus_app.openai_props') or ""
+        props = ConfigModel.get_param('face_plus_app.openai_props_karakter') or ""
+        if self.type == 'skin': 
+            props = ConfigModel.get_param('face_plus_app.openai_props_skin') or ""
+        elif self.type == 'mood': 
+            props = ConfigModel.get_param('face_plus_app.openai_props_mood') or ""
+        elif self.type == 'dream': 
+            props = ConfigModel.get_param('face_plus_app.openai_props_dream') or ""
+        elif self.type == 'style': 
+            props = ConfigModel.get_param('face_plus_app.openai_props_style') or ""
+        elif self.type == 'wish': 
+            props = ConfigModel.get_param('face_plus_app.openai_props_wish') or ""
+        elif self.type == 'nutrition': 
+            props = ConfigModel.get_param('face_plus_app.openai_props_nutrition') or ""
+        elif self.type == 'personal': 
+            props = ConfigModel.get_param('face_plus_app.openai_props_personal') or ""
+        else:
+            pass
+
         content = f"{self.summary} {props}"
 
         try:

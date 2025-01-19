@@ -51,10 +51,66 @@
                         </div>
                         <div class="col-12 col-lg-6 o_setting_box" id="weight_uom_setting">
                             <div class="o_setting_right_pane">
-                                <label for="openai_props" string="OpenAI Prop"/>
+                                <label for="openai_props_character" string="OpenAI Karakter Props"/>
                                 <div class="content-group">
                                     <div class="mt16">
-                                        <field name="openai_props" class="o_light_label"/>
+                                        <field name="openai_props_character" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="openai_props_skin" string="OpenAI Cilt Props"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="openai_props_skin" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="openai_props_mood" string="OpenAI Ruh Hali Props"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="openai_props_mood" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="openai_props_dream" string="OpenAI Rüya Props"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="openai_props_dream" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="openai_props_style" string="OpenAI Görünüm Props"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="openai_props_style" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="openai_props_wish" string="OpenAI Dilek Props"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="openai_props_wish" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="openai_props_nutrition" string="OpenAI Beslenme Props"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="openai_props_nutrition" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="openai_props_personal" string="OpenAI Kişisel Props"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="openai_props_personal" class="o_light_label"/>
                                     </div>
                                 </div>
                             </div>
