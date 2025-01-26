@@ -39,32 +39,54 @@ class FacePlusOrder(models.Model):
         return templates
 
     def run_face_plus_report(self):
-        # https://console.faceplusplus.com/documents/129100210
         ConfigModel = self.env['ir.config_parameter'].sudo()
         api_key = ConfigModel.get_param('face_plus_app.face_plus_key')
         api_secret = ConfigModel.get_param('face_plus_app.face_plus_secret')
-        url = ConfigModel.get_param('face_plus_app.face_plus_url')
-        # api_key = "PHfsBXJr2VjNJcgZCKTqOroWg3a6n5GU"
-        # api_secret = "v-IUIvlHCqohu_tCLoRs84nMRKi0ON7T"
-        # url = "https://api-us.faceplusplus.com/facepp/v1/skinanalyze"
+        base_url = ConfigModel.get_param('face_plus_app.face_plus_url') # 
 
         attachment_id = self.env['ir.attachment'].search([('res_model', '=', 'face.plus.order'), ('res_id', '=', self.id)], limit=1)
         if attachment_id:
             
-            data = {
+            base_data = {
                 'api_key': api_key,
                 'api_secret': api_secret,
                 'image_base64': attachment_id.datas.decode('utf-8')
             }
-            response = requests.post(url, data=data)
             
-            if response.status_code == 200:
-                result = response.json()
-                self.update({
-                    'summary': result['result']
-                })
-            else:
-                print("Hata oluştu:", response.status_code, response.text) 
+            endpoints = {
+                'character': [
+                    f"{base_url}/facepp/v3/detect",
+                ],
+                'skin': [
+                    f"{base_url}/facepp/v1/skinanalyze" 
+                ],
+                'mood': [
+                    f"{base_url}/facepp/v3/face/analyze" 
+                ],
+                'dream': [
+                ],
+            }
+
+            selected_endpoints = endpoints.get(self.type, [])
+            if not selected_endpoints:
+                print(f"Uyarı: {self.type} için bir endpoint tanımlı değil.")
+                return
+            
+            results = {}
+            for endpoint in selected_endpoints:
+                try:
+                    response = requests.post(endpoint, data=base_data)
+                    if response.status_code == 200:
+                        result = response.json()
+                        results[endpoint] = result
+                    else:
+                        pass
+                except Exception as e:
+                    pass
+
+            self.update({
+                'summary': str(results) 
+            })
 
     def run_chat_gpt_report(self):
         ConfigModel = self.env['ir.config_parameter'].sudo()
