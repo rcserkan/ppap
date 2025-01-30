@@ -13,9 +13,9 @@ _logger = logging.getLogger(__name__)
 @external_api.authenticated()
 def slider_list(self, **kw):
     user = dictionary.get_login_user()
-    filters = [('create_uid', '=', user.get('id'))]
+    # filters = [('create_uid', '=', user.get('id'))]
 
-    slider_ids = http.request.env['face.plus.slider'].sudo().search(filters, order='id desc')
+    slider_ids = http.request.env['face.plus.slider'].sudo().search([], order='id desc')
 
     slider_dict = self.get_slider_to_dict(slider_ids)
     return {'results': slider_dict}

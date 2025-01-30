@@ -50,20 +50,61 @@ class FacePlusOrder(models.Model):
             base_data = {
                 'api_key': api_key,
                 'api_secret': api_secret,
-                'image_base64': attachment_id.datas.decode('utf-8')
+                'image_base64': attachment_id.datas.decode('utf-8'),
             }
             
             endpoints = {
                 'character': [
-                    f"{base_url}/facepp/v3/detect",
+                    {
+                        'url': f"{base_url}/facepp/v3/detect",
+                        'fields': [],
+                    },
+                    {
+                        'url': f"{base_url}/facepp/v1/face/thousandlandmark",
+                        'fields': [
+                            { 
+                                'return_landmark': 'face' 
+                            }
+                        ],
+                    }
                 ],
                 'skin': [
-                    f"{base_url}/facepp/v1/skinanalyze" 
+                    {
+                        'url': f"{base_url}/facepp/v1/skinanalyze",
+                        'fields': [],
+                    },
+                    {
+                        'url': f"{base_url}/facepp/v1/face/thousandlandmark",
+                        'fields': [
+                            { 
+                                'return_landmark': 'face' 
+                            }
+                        ],
+                    }
                 ],
                 'mood': [
-                    f"{base_url}/facepp/v3/face/analyze" 
+                    {
+                        'url': f"{base_url}/facepp/v1/skinanalyze",
+                        'fields': [],
+                    },
+                    {
+                        'url': f"{base_url}/facepp/v1/face/thousandlandmark",
+                        'fields': [
+                            { 
+                                'return_landmark': 'face' 
+                            }
+                        ],
+                    }
                 ],
                 'dream': [
+                    {
+                        'url': f"{base_url}/facepp/v1/face/thousandlandmark",
+                        'fields': [
+                            { 
+                                'return_landmark': 'face' 
+                            }
+                        ],
+                    }
                 ],
             }
 
@@ -75,14 +116,17 @@ class FacePlusOrder(models.Model):
             results = {}
             for endpoint in selected_endpoints:
                 try:
-                    response = requests.post(endpoint, data=base_data)
+                    request_data = base_data.copy()
+                    for field in endpoint.get('fields', []):
+                        request_data.update(field)
+
+                    response = requests.post(endpoint["url"], data=request_data)
                     if response.status_code == 200:
-                        result = response.json()
-                        results[endpoint] = result
+                        results = response.json()
                     else:
-                        pass
+                        print(f"Hata: {endpoint['url']} isteği başarısız. Kod: {response.status_code}")
                 except Exception as e:
-                    pass
+                    print(f"Hata oluştu: {str(e)}")
 
             self.update({
                 'summary': str(results) 
@@ -98,21 +142,21 @@ class FacePlusOrder(models.Model):
 
         openai.api_key = openai_key
 
-        props = ConfigModel.get_param('face_plus_app.openai_props_karakter') or ""
+        props = ConfigModel.get_param('face_plus_app.openai_props_karakter')
         if self.type == 'skin': 
-            props = ConfigModel.get_param('face_plus_app.openai_props_skin') or ""
+            props = ConfigModel.get_param('face_plus_app.openai_props_skin')
         elif self.type == 'mood': 
-            props = ConfigModel.get_param('face_plus_app.openai_props_mood') or ""
+            props = ConfigModel.get_param('face_plus_app.openai_props_mood')
         elif self.type == 'dream': 
-            props = ConfigModel.get_param('face_plus_app.openai_props_dream') or ""
+            props = ConfigModel.get_param('face_plus_app.openai_props_dream')
         elif self.type == 'style': 
-            props = ConfigModel.get_param('face_plus_app.openai_props_style') or ""
+            props = ConfigModel.get_param('face_plus_app.openai_props_style')
         elif self.type == 'wish': 
-            props = ConfigModel.get_param('face_plus_app.openai_props_wish') or ""
+            props = ConfigModel.get_param('face_plus_app.openai_props_wish')
         elif self.type == 'nutrition': 
-            props = ConfigModel.get_param('face_plus_app.openai_props_nutrition') or ""
+            props = ConfigModel.get_param('face_plus_app.openai_props_nutrition')
         elif self.type == 'personal': 
-            props = ConfigModel.get_param('face_plus_app.openai_props_personal') or ""
+            props = ConfigModel.get_param('face_plus_app.openai_props_personal')
         else:
             pass
 
