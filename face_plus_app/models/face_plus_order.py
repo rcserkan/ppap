@@ -1,11 +1,7 @@
 
-from PIL import Image
-import io
-import base64
 import requests
 import openai
-import os
-
+import json
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
 
@@ -58,42 +54,24 @@ class FacePlusOrder(models.Model):
                     {
                         'url': f"{base_url}/facepp/v3/detect",
                         'fields': [],
-                    },
-                    {
-                        'url': f"{base_url}/facepp/v1/face/thousandlandmark",
-                        'fields': [
-                            { 
-                                'return_landmark': 'face' 
-                            }
-                        ],
+                        'result': 'faces',
+                        'return_attributes': 'age,gender,emotion'
                     }
                 ],
                 'skin': [
                     {
                         'url': f"{base_url}/facepp/v1/skinanalyze",
                         'fields': [],
-                    },
-                    {
-                        'url': f"{base_url}/facepp/v1/face/thousandlandmark",
-                        'fields': [
-                            { 
-                                'return_landmark': 'face' 
-                            }
-                        ],
+                        'result': 'result',
+                        'return_attributes': ''
                     }
                 ],
                 'mood': [
                     {
-                        'url': f"{base_url}/facepp/v1/skinanalyze",
+                        'url': f"{base_url}/facepp/v3/detect",
                         'fields': [],
-                    },
-                    {
-                        'url': f"{base_url}/facepp/v1/face/thousandlandmark",
-                        'fields': [
-                            { 
-                                'return_landmark': 'face' 
-                            }
-                        ],
+                        'result': 'faces',
+                        'return_attributes': 'age,gender,emotion'
                     }
                 ],
                 'dream': [
@@ -104,6 +82,8 @@ class FacePlusOrder(models.Model):
                                 'return_landmark': 'face' 
                             }
                         ],
+                        'result': 'face',
+                        'return_attributes': ''
                     }
                 ],
             }
@@ -113,23 +93,27 @@ class FacePlusOrder(models.Model):
                 print(f"Uyarı: {self.type} için bir endpoint tanımlı değil.")
                 return
             
-            results = {}
+            results = []
             for endpoint in selected_endpoints:
                 try:
                     request_data = base_data.copy()
                     for field in endpoint.get('fields', []):
                         request_data.update(field)
+                    
+                    if endpoint.get('return_attributes', False):
+                        request_data['return_attributes'] = endpoint['return_attributes']
 
                     response = requests.post(endpoint["url"], data=request_data)
                     if response.status_code == 200:
-                        results = response.json()
+                        result = response.json()
+                        results = result[endpoint["result"]]
                     else:
                         print(f"Hata: {endpoint['url']} isteği başarısız. Kod: {response.status_code}")
                 except Exception as e:
                     print(f"Hata oluştu: {str(e)}")
 
             self.update({
-                'summary': str(results) 
+                'summary': results
             })
 
     def run_chat_gpt_report(self):
