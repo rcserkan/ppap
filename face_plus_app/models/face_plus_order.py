@@ -126,7 +126,7 @@ class FacePlusOrder(models.Model):
 
         openai.api_key = openai_key
 
-        props = ConfigModel.get_param('face_plus_app.openai_props_karakter')
+        props = ConfigModel.get_param('face_plus_app.openai_props_character')
         if self.type == 'skin': 
             props = ConfigModel.get_param('face_plus_app.openai_props_skin')
         elif self.type == 'mood': 
