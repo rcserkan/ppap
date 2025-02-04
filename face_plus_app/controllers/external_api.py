@@ -9,7 +9,7 @@ from odoo.http import Response
 from odoo.tools import date_utils
 from . import auth_engine
 from datetime import datetime
-from jwt import ExpiredSignatureError
+# from jwt import ExpiredSignatureError
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ _logger = logging.getLogger(__name__)
 _exception_http_code_map = {
     UserError: 400,
     AccessDenied: 401,
-    ExpiredSignatureError: 401,
+    # ExpiredSignatureError: 401,
     AccessError: 403,
     MissingError: 404,
 }

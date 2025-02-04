@@ -54,8 +54,8 @@ class FacePlusOrder(models.Model):
                     {
                         'url': f"{base_url}/facepp/v1/skinanalyze",
                         'fields': [],
-                        'result': 'faces',
-                        'return_attributes': 'age,gender,emotion'
+                        'result': 'result',
+                        'return_attributes': ''
                     }
                 ],
                 'skin': [
