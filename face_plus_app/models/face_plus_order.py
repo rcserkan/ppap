@@ -23,7 +23,7 @@ class FacePlusOrder(models.Model):
             ('wish', 'Dilek ve Sorun Çözme Modülü'),
             ('nutrition', 'Beslenme ve Sağlıklı Yaşam Modülü'),
             ('personal', 'Kişisel Gelişim ve Hedef Modülü'),
-        ]
+        ], default="character"
     )
     chat_gpt_result = fields.Text(string='Gpt Result')
 
@@ -52,7 +52,7 @@ class FacePlusOrder(models.Model):
             endpoints = {
                 'character': [
                     {
-                        'url': f"{base_url}/facepp/v3/detect",
+                        'url': f"{base_url}/facepp/v1/skinanalyze",
                         'fields': [],
                         'result': 'faces',
                         'return_attributes': 'age,gender,emotion'
